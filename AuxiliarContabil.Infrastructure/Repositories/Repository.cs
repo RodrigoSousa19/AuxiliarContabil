@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AuxiliarContabil.Infrastructure.Repositories;
 
-public class Repository<T> : IRepository<T> where T : class
+public class Repository<T> : IRepository<T> where T : BaseEntity
 {
     private readonly SqlDbContext _context;
     private readonly DbSet<T> _dbSet;
@@ -14,14 +14,40 @@ public class Repository<T> : IRepository<T> where T : class
         _context = context;
         _dbSet = _context.Set<T>();
     }
-    
-    public async Task<IEnumerable<T>> GetAllAsync() => await _dbSet.ToListAsync();
-    public async Task<T?> GetByIdAsync(int id) => await _dbSet.FindAsync(id);
-    public async Task AddAsync(T entity) => await _dbSet.AddAsync(entity);
-    public async Task UpdateAsync(T entity) => _dbSet.Update(entity);
+
+    public async Task<IEnumerable<T>> GetAllAsync()
+    {
+        return await _dbSet.ToListAsync();
+    }
+
+    public async Task<T?> GetByIdAsync(int id)
+    {
+        return await _dbSet.SingleOrDefaultAsync(p => p.Id.Equals(id));
+    }
+
+    public async Task AddAsync(T entity)
+    {
+        _dbSet.Add(entity);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task UpdateAsync(T entity)
+    {
+        var result = _dbSet.SingleOrDefault(p => p.Id.Equals(entity.Id));
+        if (result != null)
+        {
+            _context.Entry(result).CurrentValues.SetValues(entity);
+            await _context.SaveChangesAsync();
+        }
+    }
+
     public async Task DeleteAsync(int id)
     {
-        var entity = await GetByIdAsync(id);
-        if (entity != null) _dbSet.Remove(entity);
+        var result = _dbSet.SingleOrDefault(p => p.Id.Equals(id));
+        if (result != null)
+        {
+            _dbSet.Remove(result);
+            await _context.SaveChangesAsync();
+        }
     }
 }

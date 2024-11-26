@@ -3,10 +3,8 @@ using System.Collections.Generic;
 
 namespace AuxiliarContabil.Infrastructure;
 
-public partial class ExtratoBancarioPessoaJuridica
+public partial class ExtratoBancarioPessoaJuridica : BaseEntity
 {
-    public int Id { get; set; }
-
     public string NomeBanco { get; set; } = null!;
 
     public DateOnly DataTransacao { get; set; }

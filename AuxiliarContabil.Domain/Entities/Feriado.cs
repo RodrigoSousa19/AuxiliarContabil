@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AuxiliarContabil.Infrastructure;
 
-public partial class Feriado
+public partial class Feriado : BaseEntity
 {
     public DateOnly Data { get; set; }
 

@@ -23,10 +23,6 @@ public partial class SqlDbContext : DbContext
     public virtual DbSet<ExtratoBancarioPessoaJuridica> ExtratoBancarioPessoaJuridicas { get; set; }
 
     public virtual DbSet<Feriado> Feriados { get; set; }
-
-    public virtual DbSet<ScheduledService> ScheduledServices { get; set; }
-
-    public virtual DbSet<ServiceExecutionLog> ServiceExecutionLogs { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

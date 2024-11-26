@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace AuxiliarContabil.Infrastructure;
 
-public partial class DAS
+public partial class DAS : BaseEntity
 {
-    public int Faixa { get; set; }
+    public string Faixa { get; set; }
 
     public decimal? ReceitaBrutaAnual { get; set; }
 

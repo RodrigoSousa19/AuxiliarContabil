@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace AuxiliarContabil.Infrastructure;
 
-namespace AuxiliarContabil.Infrastructure;
-
-public partial class ComposicaoSalario
-{
+public partial class ComposicaoSalario : BaseEntity{
     public DateTime InicioPeriodo { get; set; }
 
     public DateTime FimPeriodo { get; set; }
@@ -24,4 +20,5 @@ public partial class ComposicaoSalario
     public decimal? SalarioBruto { get; set; }
 
     public decimal? MensalidadeContabilidade { get; set; }
+    public bool ComposicaoAtual { get; set; }
 }
