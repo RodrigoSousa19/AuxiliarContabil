@@ -20,12 +20,12 @@ RUN dotnet restore "AuxiliarContabil.API/AuxiliarContabil.API.csproj"
 # Copy source code and build
 COPY . .
 WORKDIR "/src/AuxiliarContabil.API"
-RUN dotnet build "AuxiliarContabil.API.csproj" -c $BUILD_CONFIGURATION -o /app/build --no-restore
+RUN dotnet build "AuxiliarContabil.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # Publish application
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "AuxiliarContabil.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false --no-restore
+RUN dotnet publish "AuxiliarContabil.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # Final image
 FROM base AS final
