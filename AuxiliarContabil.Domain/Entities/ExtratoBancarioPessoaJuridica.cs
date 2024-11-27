@@ -7,7 +7,7 @@ public partial class ExtratoBancarioPessoaJuridica : BaseEntity
 {
     public string NomeBanco { get; set; } = null!;
 
-    public DateOnly DataTransacao { get; set; }
+    public DateTime DataTransacao { get; set; }
 
     public string TipoTransacao { get; set; } = null!;
 

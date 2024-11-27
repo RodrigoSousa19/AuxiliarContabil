@@ -9,10 +9,10 @@ namespace AuxiliarContabil.Application.Services;
 
 public class ComposicaoSalarialService : IComposicaoSalarialService
 {
-    private readonly IRepository<ComposicaoSalario> _repository;
+    private readonly IComposicaoSalarialRepository _repository;
     private readonly IMapper _mapper;
 
-    public ComposicaoSalarialService(IRepository<ComposicaoSalario> repository, IMapper mapper)
+    public ComposicaoSalarialService(IComposicaoSalarialRepository repository, IMapper mapper)
     {
         _repository = repository;
         _mapper = mapper;
@@ -52,4 +52,6 @@ public class ComposicaoSalarialService : IComposicaoSalarialService
     }
 
     public async Task DeleteAsync(int id) => await _repository.DeleteAsync(id);
+
+    public async Task UpdateCurrentComposition(int id) => await _repository.UpdateCurrentComposition(id);
 }

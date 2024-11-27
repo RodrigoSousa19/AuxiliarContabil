@@ -9,5 +9,7 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         CreateMap<ComposicaoSalario, ComposicaoSalarioDto>().ReverseMap();
+        CreateMap<DAS, DasDto>().ReverseMap();
+        CreateMap<ExtratoBancarioPessoaJuridica, ExtratoBancarioPessoaJuridicaDTO>().ReverseMap();
     }
 }

@@ -40,10 +40,19 @@ public class ComposicaoSalarialController : ControllerBase
         return NoContent();
     }
 
+    
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
         await _composicaoSalarialService.DeleteAsync(id);
+        return NoContent();
+    }
+
+    [HttpPut("TrocarComposicaoAtual/{id}")]
+    public async Task<IActionResult> UpdateCurrenteComposition(int id)
+    {
+        await _composicaoSalarialService.UpdateCurrentComposition(id);
+        
         return NoContent();
     }
 }

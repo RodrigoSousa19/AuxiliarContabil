@@ -20,6 +20,9 @@ public static class ServiceExtensions
     public static void AddDependencyInjection(this IServiceCollection services)
     {
         services.AddScoped<IComposicaoSalarialService, ComposicaoSalarialService>();
+        services.AddScoped<IComposicaoSalarialRepository, ComposicaoSalarialRepository>();
+        services.AddScoped<IDasService, DasService>();
+        services.AddScoped<IExtratoBancarioService, ExtratoBancarioService>();
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
     }
 }
