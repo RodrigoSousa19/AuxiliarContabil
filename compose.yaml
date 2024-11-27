@@ -10,9 +10,10 @@ services:
     networks:
       - rede-vps
     ports:
-      - "5000:80"
+      - "5000:5000"
     environment:
-      - MSSQL_CONNECTION_STRING
+      - MSSQL_CONNECTION_STRING=${MSSQL_CONNECTION_STRING}
+      - ASPNETCORE_URLS=http://0.0.0.0:5000
 networks:
   rede-vps:
     external: true
