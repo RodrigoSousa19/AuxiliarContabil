@@ -8,11 +8,19 @@ namespace AuxiliarContabil.Tests.Controllers;
 
 public class ComposicaoSalarialControllerTests
 {
+    private readonly Mock<IComposicaoSalarialService> _service;
+    private readonly ComposicaoSalarialController _controller;
+    
+    public ComposicaoSalarialControllerTests()
+    {
+        _service = new Mock<IComposicaoSalarialService>();
+        _controller = new ComposicaoSalarialController(_service.Object);
+    }
+
+    
     [Fact]
     public async Task GetById_ShouldReturnOk_WhenComposicaoSalarialExists()
     {
-        var _service = new Mock<IComposicaoSalarialService>();
-
         var dto = new ComposicaoSalarioDto
         {
             Id = 1,
@@ -28,12 +36,10 @@ public class ComposicaoSalarialControllerTests
             MensalidadeContabilidade = 800.00m,
             ComposicaoAtual = true
         };
-
+        
         _service.Setup(s => s.GetByIdAsync(1)).ReturnsAsync(dto);
-
-        var controller = new ComposicaoSalarialController(_service.Object);
-
-        var result = await controller.GetById(1);
+        
+        var result = await _controller.GetById(1);
 
         var okResult = Assert.IsType<OkObjectResult>(result);
         var responseDto = Assert.IsType<ComposicaoSalarioDto>(okResult.Value);
@@ -46,13 +52,9 @@ public class ComposicaoSalarialControllerTests
     [Fact]
     public async Task GetById_ShouldReturnNotFound_WhenComposicaoSalarialDoesNotExist()
     {
-        var _service = new Mock<IComposicaoSalarialService>();
-
         _service.Setup(s => s.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((ComposicaoSalarioDto)null);
-
-        var controller = new ComposicaoSalarialController(_service.Object);
-
-        var result = await controller.GetById(999);
+        
+        var result = await _controller.GetById(999);
 
         Assert.IsType<NotFoundResult>(result);
     }
@@ -60,8 +62,6 @@ public class ComposicaoSalarialControllerTests
     [Fact]
     public async Task GetAll_ShouldReturnOk_WhenComposicoesExist()
     {
-        var _service = new Mock<IComposicaoSalarialService>();
-
         var dtoList = new List<ComposicaoSalarioDto>
         {
             new ComposicaoSalarioDto
@@ -77,10 +77,8 @@ public class ComposicaoSalarialControllerTests
         };
 
         _service.Setup(s => s.GetAllAsync()).ReturnsAsync(dtoList);
-
-        var controller = new ComposicaoSalarialController(_service.Object);
-
-        var result = await controller.GetAll();
+        
+        var result = await _controller.GetAll();
 
         var okResult = Assert.IsType<OkObjectResult>(result);
         var responseList = Assert.IsType<List<ComposicaoSalarioDto>>(okResult.Value);
@@ -91,8 +89,6 @@ public class ComposicaoSalarialControllerTests
     [Fact]
     public async Task Create_ShouldReturnCreatedAtAction_WhenComposicaoIsCreated()
     {
-        var _service = new Mock<IComposicaoSalarialService>();
-
         var dto = new ComposicaoSalarioDto
         {
             Id = 1,
@@ -110,21 +106,19 @@ public class ComposicaoSalarialControllerTests
         };
 
         _service.Setup(s => s.AddAsync(dto)).Returns(Task.CompletedTask);
-
-        var controller = new ComposicaoSalarialController(_service.Object);
-
-        var result = await controller.Create(dto);
+        
+        var result = await _controller.Create(dto);
 
         var createdResult = Assert.IsType<CreatedAtActionResult>(result);
+        
         Assert.Equal("GetById", createdResult.ActionName);
+        
         Assert.Equal(1, createdResult.RouteValues["id"]);
     }
 
     [Fact]
     public async Task Update_ShouldReturnNoContent_WhenComposicaoIsUpdated()
     {
-        var _service = new Mock<IComposicaoSalarialService>();
-
         var dto = new ComposicaoSalarioDto
         {
             Id = 1,
@@ -142,26 +136,18 @@ public class ComposicaoSalarialControllerTests
         };
 
         _service.Setup(s => s.UpdateAsync(dto)).Returns(Task.CompletedTask);
-
-        var controller = new ComposicaoSalarialController(_service.Object);
-
-        // Act
-        var result = await controller.Update(1, dto);
-
-        // Assert
+        
+        var result = await _controller.Update(1, dto);
+        
         Assert.IsType<NoContentResult>(result);
     }
 
     [Fact]
     public async Task Delete_ShouldReturnNoContent_WhenComposicaoIsDeleted()
     {
-        var _service = new Mock<IComposicaoSalarialService>();
-
         _service.Setup(s => s.DeleteAsync(1)).Returns(Task.CompletedTask);
-
-        var controller = new ComposicaoSalarialController(_service.Object);
-
-        var result = await controller.Delete(1);
+        
+        var result = await _controller.Delete(1);
 
         Assert.IsType<NoContentResult>(result);
     }
