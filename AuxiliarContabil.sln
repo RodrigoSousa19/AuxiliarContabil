@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuxiliarContabil.Infrastruc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuxiliarContabil.Application", "AuxiliarContabil.Application\AuxiliarContabil.Application.csproj", "{37FC1BA8-497B-4D63-8FD0-C0CE553182F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuxiliarContabil.Tests", "AuxiliarContabil.Tests\AuxiliarContabil.Tests.csproj", "{AAB7D1A4-09B4-42D7-8F1E-3FC16A3D729D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{37FC1BA8-497B-4D63-8FD0-C0CE553182F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37FC1BA8-497B-4D63-8FD0-C0CE553182F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37FC1BA8-497B-4D63-8FD0-C0CE553182F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAB7D1A4-09B4-42D7-8F1E-3FC16A3D729D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAB7D1A4-09B4-42D7-8F1E-3FC16A3D729D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAB7D1A4-09B4-42D7-8F1E-3FC16A3D729D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAB7D1A4-09B4-42D7-8F1E-3FC16A3D729D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
