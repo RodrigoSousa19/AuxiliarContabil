@@ -1,6 +1,6 @@
 
 
-# Auxiliar Contábil - EM ANDAMENTO
+# Auxiliar Contábil - EM ANDAMENTO - [![Deploy Application](https://github.com/RodrigoSousa19/AuxiliarContabil/actions/workflows/deploy.yml/badge.svg)](https://github.com/RodrigoSousa19/AuxiliarContabil/actions/workflows/deploy.yml)
 ## Objetivo
 Esta api tem o objetivo de auxiliar com cálculos básicos para qualquer pessoa que tenha ME, para facilitar os cálculos de custos com impostos como DAS e GPS, além de também informar o Pró Labore e uma estimativa de salário liquido após todos os cálculos.
 
