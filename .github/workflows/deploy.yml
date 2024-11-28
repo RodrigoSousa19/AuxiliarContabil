@@ -15,38 +15,31 @@ jobs:
 
     - name: Set up SSH
       run: |
+        echo "Creating .ssh directory..."
         mkdir -p ~/.ssh
+        echo "Adding private key to ~/.ssh/id_rsa..."
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        echo "Setting permissions for private key..."
         chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H $SERVER_IP >> ~/.ssh/known_hosts 
-
-        echo "Conteúdo da pasta ~/.ssh:"
+        echo "Adding server to known_hosts..."
+        ssh-keyscan -H ${{ secrets.SERVER_IP }} > ~/.ssh/known_hosts
+    
+        echo "Starting SSH agent..."
+        eval "$(ssh-agent -s)"
+        echo "Adding private key to agent..."
+        ssh-add ~/.ssh/id_rsa
+    
+        echo "Testing SSH directory structure..."
         ls -la ~/.ssh
     
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
+        echo "Testing SSH connection..."
+        ssh -v ${{ secrets.DEPLOY_USER }}@${{ secrets.SERVER_IP }} 'echo "SSH connection successful"'
     
-        echo "Conteúdo da chave privada (id_rsa):"
-        cat ~/.ssh/id_rsa
-    
-        echo "Adicionando a chave pública do servidor ao arquivo known_hosts"
-        ssh-keyscan -H $SERVER_IP >> ~/.ssh/known_hosts
-    
-        echo "Conteúdo do arquivo known_hosts:"
-        cat ~/.ssh/known_hosts
-    
-        echo "Testando conexão SSH..."
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.DEPLOY_USER }}@$SERVER_IP echo "Conexão SSH bem-sucedida"
-
     - name: Deploy application
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.DEPLOY_USER }}@$SERVER_IP << EOF
-          cd /GitProjects/AuxiliarContabil
+        ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.SERVER_IP }} << EOF
+          cd /caminho/para/seu/projeto
           docker-compose down
           git pull origin main
           docker-compose up --build -d
         EOF
-      env:
-        DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
-        SERVER_IP: ${{ secrets.SERVER_IP }}
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
