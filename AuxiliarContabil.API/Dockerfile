@@ -30,6 +30,6 @@ RUN dotnet publish "AuxiliarContabil.API.csproj" -c $BUILD_CONFIGURATION -o /app
 # Final image
 FROM base AS final
 WORKDIR /app
-ENV ASPNETCORE_URLS=http://+:5000
+
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "AuxiliarContabil.API.dll"]
