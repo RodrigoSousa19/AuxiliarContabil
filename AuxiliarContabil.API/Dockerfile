@@ -5,6 +5,9 @@ USER $APP_UID
 WORKDIR /app
 EXPOSE 5000
 
+RUN apk add --no-cache icu-libs
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+
 # Build image with SDK
 FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS build
 ARG BUILD_CONFIGURATION=Release
