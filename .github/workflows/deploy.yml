@@ -15,31 +15,20 @@ jobs:
 
     - name: Set up SSH
       run: |
-        echo "Creating .ssh directory..."
         mkdir -p ~/.ssh
-        echo "Adding private key to ~/.ssh/id_rsa..."
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        echo "Setting permissions for private key..."
         chmod 600 ~/.ssh/id_rsa
-        echo "Adding server to known_hosts..."
-        ssh-keyscan -H 46.202.144.159 > ~/.ssh/known_hosts
-    
-        echo "Starting SSH agent..."
-        eval "$(ssh-agent -s)"
-        echo "Adding private key to agent..."
-        ssh-add ~/.ssh/id_rsa
-    
-        echo "Testing SSH directory structure..."
-        ls -la ~/.ssh
-    
-        echo "Testing SSH connection..."
-        ssh -v root@46.202.144.159 'echo "SSH connection successful"'
-    
+        ssh-keyscan -H $SERVER_IP >> ~/.ssh/known_hosts  # Adiciona a chave pública do servidor ao known_hosts
+
     - name: Deploy application
       run: |
-        ssh root@46.202.144.159 << EOF
-          cd /caminho/para/seu/projeto
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.DEPLOY_USER }}@$SERVER_IP << EOF
+          cd /GitProjects/AuxiliarContabil
           docker-compose down
           git pull origin main
           docker-compose up --build -d
         EOF
+      env:
+        DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        SERVER_IP: ${{ secrets.SERVER_IP }}
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
