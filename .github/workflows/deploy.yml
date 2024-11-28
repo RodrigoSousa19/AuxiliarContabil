@@ -1,0 +1,30 @@
+name: Deploy Application
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H 46.202.144.159 >> ~/.ssh/known_hosts
+
+    - name: Deploy application
+      run: |
+        ssh root@46.202.144.159 << EOF
+          cd GitProjects/AuxiliarContabil
+          docker-compose down
+          git pull origin main
+          docker-compose up --build -d
+        EOF
