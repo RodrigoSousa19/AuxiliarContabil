@@ -38,7 +38,7 @@ jobs:
     - name: Deploy application
       run: |
         ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.SERVER_IP }} << EOF
-          cd /caminho/para/seu/projeto
+          cd /GitProjects/AuxiliarContabil
           docker-compose down
           git pull origin main
           docker-compose up --build -d
