@@ -21,6 +21,15 @@ jobs:
         ssh-keyscan -H 46.202.144.159 > ~/.ssh/known_hosts
         eval "$(ssh-agent -s)"
         ssh-add ~/.ssh/id_rsa
+    
+    - name: Debug SSH Configuration
+      run: |
+        echo "Listing SSH directory contents:"
+        ls -la ~/.ssh
+        echo "Displaying the known_hosts file:"
+        cat ~/.ssh/known_hosts
+        echo "Testing SSH connection:"
+        ssh -v root@46.202.144.159 'echo "Connection successful"'
 
     - name: Deploy application
       run: |
