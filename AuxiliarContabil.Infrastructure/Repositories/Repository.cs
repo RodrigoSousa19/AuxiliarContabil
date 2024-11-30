@@ -1,4 +1,5 @@
-﻿using AuxiliarContabil.Domain.Interfaces.Repositories;
+﻿using System.Linq.Expressions;
+using AuxiliarContabil.Domain.Interfaces.Repositories;
 using AuxiliarContabil.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,6 +24,11 @@ public class Repository<T> : IRepository<T> where T : BaseEntity
     public async Task<T?> GetByIdAsync(int id)
     {
         return await _dbSet.SingleOrDefaultAsync(p => p.Id.Equals(id));
+    }
+    
+    public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
+    {
+        return await _dbSet.Where(predicate).ToListAsync();
     }
 
     public async Task AddAsync(T entity)

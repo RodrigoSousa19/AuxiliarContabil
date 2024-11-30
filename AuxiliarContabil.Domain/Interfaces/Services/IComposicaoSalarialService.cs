@@ -10,4 +10,5 @@ public interface IComposicaoSalarialService
     Task UpdateAsync(ComposicaoSalarioDto composicaoDto);
     Task DeleteAsync(int id);
     Task UpdateCurrentComposition(int id);
+    Task<ComposicaoSalarioDto?> GetCurrentCompositionAsync();
 }

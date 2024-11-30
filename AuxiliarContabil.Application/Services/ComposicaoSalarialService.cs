@@ -54,4 +54,10 @@ public class ComposicaoSalarialService : IComposicaoSalarialService
     public async Task DeleteAsync(int id) => await _repository.DeleteAsync(id);
 
     public async Task UpdateCurrentComposition(int id) => await _repository.UpdateCurrentComposition(id);
+
+    public async Task<ComposicaoSalarioDto?> GetCurrentCompositionAsync()
+    {
+        var composicao = await _repository.FindAsync(x => x.ComposicaoAtual);
+        return _mapper.Map<ComposicaoSalarioDto?>(composicao.FirstOrDefault());
+    }
 }

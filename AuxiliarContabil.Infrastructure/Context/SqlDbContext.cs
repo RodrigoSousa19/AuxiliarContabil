@@ -16,7 +16,7 @@ public partial class SqlDbContext : DbContext
     {
     }
 
-    public virtual DbSet<ComposicaoSalario> ComposicaoSalarios { get; set; }
+    public virtual DbSet<ComposicaoSalario?> ComposicaoSalarios { get; set; }
 
     public virtual DbSet<DAS> DAS { get; set; }
 

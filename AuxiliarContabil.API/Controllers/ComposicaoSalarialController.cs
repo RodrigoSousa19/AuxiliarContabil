@@ -40,7 +40,7 @@ public class ComposicaoSalarialController : ControllerBase
         return NoContent();
     }
 
-    
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
@@ -52,7 +52,11 @@ public class ComposicaoSalarialController : ControllerBase
     public async Task<IActionResult> UpdateCurrenteComposition(int id)
     {
         await _composicaoSalarialService.UpdateCurrentComposition(id);
-        
+
         return NoContent();
     }
+
+    [HttpGet("ComposicaoAtual")]
+    public async Task<IActionResult> GetComposicaoAtual() =>
+        Ok(await _composicaoSalarialService.GetCurrentCompositionAsync());
 }
