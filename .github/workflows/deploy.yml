@@ -1,0 +1,45 @@
+name: Deploy Application
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up SSH
+      run: |
+        echo "Creating .ssh directory..."
+        mkdir -p ~/.ssh
+        echo "Adding private key to ~/.ssh/id_rsa..."
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        echo "Setting permissions for private key..."
+        chmod 600 ~/.ssh/id_rsa
+        echo "Adding server to known_hosts..."
+        ssh-keyscan -H ${{ secrets.SERVER_IP }} > ~/.ssh/known_hosts
+    
+        echo "Starting SSH agent..."
+        eval "$(ssh-agent -s)"
+        echo "Adding private key to agent..."
+        ssh-add ~/.ssh/id_rsa
+    
+        echo "Testing SSH directory structure..."
+        ls -la ~/.ssh
+    
+        echo "Testing SSH connection..."
+        ssh -v ${{ secrets.DEPLOY_USER }}@${{ secrets.SERVER_IP }} 'echo "SSH connection successful"'
+    
+    - name: Deploy application
+      run: |
+        ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.SERVER_IP }} << EOF
+          cd GitProjects/AuxiliarContabil
+          docker-compose down
+          git pull origin main
+          docker-compose up --build -d
+        EOF
