@@ -40,6 +40,6 @@ jobs:
         ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.SERVER_IP }} << EOF
           cd GitProjects/AuxiliarContabil
           docker-compose down
-          git pull origin main
+          git pull origin master
           docker-compose up --build -d
         EOF
