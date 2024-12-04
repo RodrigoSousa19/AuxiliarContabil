@@ -22,4 +22,10 @@ public class FeriadosService : IFeriadosService
         var feriados = await _repository.GetAllAsync();
         return _mapper.Map<IEnumerable<FeriadosDto>>(feriados);
     }
+
+    public async Task<IEnumerable<FeriadosDto>> GetByDateRange(DateTime startDate, DateTime endDate)
+    {
+        var feriados = await _repository.FindAsync(x => x.Data >= startDate && x.Data <= endDate);
+        return _mapper.Map<IEnumerable<FeriadosDto>>(feriados);
+    }
 }
