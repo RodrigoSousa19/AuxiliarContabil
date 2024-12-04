@@ -23,6 +23,7 @@ public static class ServiceExtensions
         services.AddScoped<IComposicaoSalarialRepository, ComposicaoSalarialRepository>();
         services.AddScoped<IDasService, DasService>();
         services.AddScoped<IExtratoBancarioService, ExtratoBancarioService>();
+        services.AddScoped<IFeriadosService, FeriadosService>();
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
     }
 }

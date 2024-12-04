@@ -11,5 +11,6 @@ public class MappingProfile : Profile
         CreateMap<ComposicaoSalario, ComposicaoSalarioDto>().ReverseMap();
         CreateMap<DAS, DasDto>().ReverseMap();
         CreateMap<ExtratoBancarioPessoaJuridica, ExtratoBancarioPessoaJuridicaDTO>().ReverseMap();
+        CreateMap<Feriado,FeriadosDto>().ReverseMap();
     }
 }

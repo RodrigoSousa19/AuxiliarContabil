@@ -5,7 +5,7 @@ namespace AuxiliarContabil.Infrastructure;
 
 public partial class Feriado : BaseEntity
 {
-    public DateOnly Data { get; set; }
+    public DateTime Data { get; set; }
 
     public string? Nome { get; set; }
 
