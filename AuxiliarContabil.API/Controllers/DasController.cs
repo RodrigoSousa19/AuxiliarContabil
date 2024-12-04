@@ -40,4 +40,11 @@ public class DasController(IDasService dasService) : ControllerBase
         await dasService.DeleteAsync(id);
         return NoContent();
     }
+
+    [HttpGet("faixaatual/{salarioBrutoAnual}")]
+    public async Task<IActionResult> GetFaixaAtual(decimal salarioBrutoAnual)
+    {
+        var faixaAtual = await dasService.GetFaixaDas(salarioBrutoAnual);
+        return faixaAtual == null ? NotFound() : Ok(faixaAtual);
+    }
 }

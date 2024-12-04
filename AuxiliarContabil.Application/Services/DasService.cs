@@ -49,4 +49,10 @@ public class DasService : IDasService
     }
 
     public async Task DeleteAsync(int id) => await _repository.DeleteAsync(id);
+    public async Task<DasDto?> GetFaixaDas(decimal salarioBrutoAnual)
+    {
+        var das = await _repository.FindAsync(d => d.ReceitaBrutaAnual >= salarioBrutoAnual);
+        var faixaDas = das.OrderBy(d => d.ReceitaBrutaAnual).FirstOrDefault();
+        return _mapper.Map<DasDto>(faixaDas);
+    }
 }

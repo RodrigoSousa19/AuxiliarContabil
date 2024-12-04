@@ -9,4 +9,5 @@ public interface IDasService
     Task AddAsync(DasDto dasDto);
     Task UpdateAsync(DasDto dasDto);
     Task DeleteAsync(int id);
+    Task<DasDto?> GetFaixaDas(decimal salarioBrutoAnual);
 }
