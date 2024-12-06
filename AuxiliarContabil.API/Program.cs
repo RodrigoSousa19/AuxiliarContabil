@@ -2,6 +2,7 @@ using System.Data;
 using AuxiliarContabil.API.Extensions;
 using AuxiliarContabil.API.Middlewares;
 using Serilog;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMetricServer();
 
 app.UseSerilogRequestLogging();
 
