@@ -1,11 +1,13 @@
 ﻿using System.Net;
 using System.Text.Json;
 using AuxiliarContabil.API.CustomExceptions;
+using Prometheus;
 
 namespace AuxiliarContabil.API.Middlewares
 {
     public class ExceptionMiddleware(RequestDelegate next)
     {
+        Counter exceptionsCounter = Metrics.CreateCounter("exceptions_total", "Exceptions count");
         public async Task InvokeAsync(HttpContext context)
         {
             try
@@ -24,7 +26,7 @@ namespace AuxiliarContabil.API.Middlewares
                     erros = ex.Errors.Select(e => new { e.Field, e.Message }),
                     data = DateTime.UtcNow
                 };
-
+                exceptionsCounter.Inc();
                 await context.Response.WriteAsJsonAsync(response);
             }
             catch (Exception ex)
@@ -39,7 +41,7 @@ namespace AuxiliarContabil.API.Middlewares
                     detalhes = ex.Message,
                     data = DateTime.UtcNow
                 };
-
+                exceptionsCounter.Inc();
                 await context.Response.WriteAsJsonAsync(response);
             }
         }
