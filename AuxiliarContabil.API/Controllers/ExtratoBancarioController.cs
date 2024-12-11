@@ -47,4 +47,7 @@ public class ExtratoBancarioController(IExtratoBancarioService extratoBancarioSe
         await extratoBancarioService.DeleteAsync(id);
         return NoContent();
     }
+
+    [HttpGet("agrupados")]
+    public async Task<IActionResult> GetAllAgrupados() => Ok( await extratoBancarioService.GetAllByBankAndType());
 }

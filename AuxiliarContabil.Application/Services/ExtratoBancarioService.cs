@@ -3,6 +3,7 @@ using AuxiliarContabil.Domain.Dto;
 using AuxiliarContabil.Domain.Entities;
 using AuxiliarContabil.Domain.Interfaces.Repositories;
 using AuxiliarContabil.Domain.Interfaces.Services;
+using AuxiliarContabil.Domain.Models;
 
 namespace AuxiliarContabil.Application.Services;
 
@@ -11,13 +12,13 @@ public class ExtratoBancarioService : IExtratoBancarioService
     private readonly IRepository<ExtratoBancarioPessoaJuridica> _repository;
     private readonly IMapper _mapper;
     private const int seed = 50;
-    
+
     public ExtratoBancarioService(IRepository<ExtratoBancarioPessoaJuridica> repository, IMapper mapper)
     {
         _repository = repository;
         _mapper = mapper;
     }
-    
+
     public async Task<IEnumerable<ExtratoBancarioPessoaJuridicaDTO>> GetAllAsync()
     {
         var extratos = await _repository.GetAllAsync();
@@ -50,7 +51,7 @@ public class ExtratoBancarioService : IExtratoBancarioService
             }
         }
     }
-    
+
     public async Task UpdateAsync(ExtratoBancarioPessoaJuridicaDTO extratoDto)
     {
         var extrato = _mapper.Map<ExtratoBancarioPessoaJuridica>(extratoDto);
@@ -58,4 +59,31 @@ public class ExtratoBancarioService : IExtratoBancarioService
     }
 
     public async Task DeleteAsync(int id) => await _repository.DeleteAsync(id);
+    
+    public async Task<IEnumerable<ResumoExtrato>> GetAllByBankAndType()
+    {
+        var extratosDto = _mapper.Map<IEnumerable<ExtratoBancarioPessoaJuridicaDTO>>(await _repository.GetAllAsync());
+
+        IEnumerable<ResumoExtrato> resumo = extratosDto
+            .GroupBy(x => x.NomeBanco)
+            .Select(bancoGroup => new ResumoExtrato
+            {
+                Banco = bancoGroup.Key,
+                Movimentacoes = bancoGroup
+                    .GroupBy(x => x.TipoTransacao)
+                    .Select(tipoGroup => new MovimentacaoExtrato()
+                    {
+                        Tipo = tipoGroup.Key.ToString(),
+                        Transacoes = tipoGroup.Select(t => new Transacao
+                        {
+                            Valor = t.ValorTransacao,
+                            Descricao = t.Descricao,
+                            Date = t.DataTransacao
+                        }).OrderByDescending(d => d.Date).ToList()
+                    })
+            });
+        
+        return resumo;
+    }
+
 }
