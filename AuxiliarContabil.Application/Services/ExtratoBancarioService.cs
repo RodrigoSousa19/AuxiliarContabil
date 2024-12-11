@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using AuxiliarContabil.API.Assertions;
 using AuxiliarContabil.Domain.Dto;
+using AuxiliarContabil.Domain.Entities;
 using AuxiliarContabil.Domain.Interfaces.Repositories;
 using AuxiliarContabil.Domain.Interfaces.Services;
-using AuxiliarContabil.Infrastructure;
 
 namespace AuxiliarContabil.Application.Services;
 

@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using AuxiliarContabil.Domain.Entities;
 using AuxiliarContabil.Domain.Interfaces.Repositories;
 using AuxiliarContabil.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;

@@ -1,4 +1,4 @@
-﻿namespace AuxiliarContabil.Infrastructure;
+﻿namespace AuxiliarContabil.Domain.Entities;
 
 public class BaseEntity
 {

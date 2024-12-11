@@ -1,6 +1,4 @@
-﻿using AuxiliarContabil.Infrastructure;
-
-namespace AuxiliarContabil.Domain.Dto;
+﻿namespace AuxiliarContabil.Domain.Dto;
 
 public class DasDto
 {

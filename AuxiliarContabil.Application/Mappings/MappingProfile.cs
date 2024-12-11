@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using AuxiliarContabil.Domain.Dto;
-using AuxiliarContabil.Infrastructure;
+using AuxiliarContabil.Domain.Entities;
 
 namespace AuxiliarContabil.Application.Mappings;
 

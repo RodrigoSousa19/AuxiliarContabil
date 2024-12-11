@@ -1,7 +1,6 @@
-﻿using AuxiliarContabil.Domain.Interfaces.Repositories;
+﻿using AuxiliarContabil.Domain.Entities;
+using AuxiliarContabil.Domain.Interfaces.Repositories;
 using AuxiliarContabil.Infrastructure.Context;
-using Microsoft.EntityFrameworkCore;
-
 namespace AuxiliarContabil.Infrastructure.Repositories;
 
 public class ComposicaoSalarialRepository(SqlDbContext context) : Repository<ComposicaoSalario>(context),

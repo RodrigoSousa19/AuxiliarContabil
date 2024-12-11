@@ -1,4 +1,4 @@
-﻿namespace AuxiliarContabil.Infrastructure;
+﻿namespace AuxiliarContabil.Domain.Entities;
 
 public partial class ComposicaoSalario : BaseEntity{
     public DateTime InicioPeriodo { get; set; }

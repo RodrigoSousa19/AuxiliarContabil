@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AuxiliarContabil.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace AuxiliarContabil.Infrastructure.Context;
 

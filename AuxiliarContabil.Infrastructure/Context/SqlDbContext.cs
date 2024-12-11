@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using AuxiliarContabil.Infrastructure;
+﻿
+using AuxiliarContabil.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuxiliarContabil.Infrastructure.Context;

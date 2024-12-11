@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AuxiliarContabil.Infrastructure;
+namespace AuxiliarContabil.Domain.Entities;
 
 public partial class DAS : BaseEntity
 {

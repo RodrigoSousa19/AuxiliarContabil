@@ -1,4 +1,4 @@
-﻿using AuxiliarContabil.Infrastructure;
+﻿using AuxiliarContabil.Domain.Entities;
 
 namespace AuxiliarContabil.Domain.Interfaces.Repositories;
 
