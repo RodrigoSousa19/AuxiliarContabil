@@ -38,7 +38,7 @@ namespace AuxiliarContabil.API.Middlewares
                 {
                     erro = Guid.NewGuid(),
                     mensagem = "Ocorreu um erro inesperado.",
-                    detalhes = ex.Message,
+                    detalhes = "Verifique com o administrador do sistema.",
                     data = DateTime.UtcNow
                 };
                 exceptionsCounter.Inc();
