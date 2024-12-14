@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Globalization;
+using System.Text.RegularExpressions;
+using AutoMapper;
 using AuxiliarContabil.Domain.Dto;
 using AuxiliarContabil.Domain.Entities;
 using AuxiliarContabil.Domain.Interfaces.Repositories;
@@ -84,6 +86,63 @@ public class ExtratoBancarioService : IExtratoBancarioService
             });
         
         return resumo;
+    }
+    
+    public async Task<List<ExtratoBancarioPessoaJuridica>> ProcessarArquivoOfx(Stream arquivoStream)
+    {
+        var transacoes = new List<ExtratoBancarioPessoaJuridica>();
+
+        using var reader = new StreamReader(arquivoStream);
+        string ofxContent = reader.ReadToEnd();
+        
+        if (string.IsNullOrWhiteSpace(ofxContent))
+        {
+            throw new ArgumentException("O conteúdo do arquivo OFX está vazio.");
+        }
+
+        string banco = ExtractTag(ofxContent, "BANKID") + " - " + ExtractTag(ofxContent, "ORG");
+
+        var transacoesRaw = Regex.Split(ofxContent, @"<STMTTRN>");
+
+        foreach (var transacaoRaw in transacoesRaw)
+        {
+            if (!transacaoRaw.Contains("<TRNAMT>")) continue;
+
+            var dataTransacao = DateTime.ParseExact(ExtractTag(transacaoRaw, "DTPOSTED").Substring(0, 8), "yyyyMMdd", null);
+            var tipoTransacao = ExtractTag(transacaoRaw, "TRNTYPE") == "DEBIT" ? "Débito" : "Crédito";
+
+            var valorStr = ExtractTag(transacaoRaw, "TRNAMT");
+            if (valorStr.StartsWith("-"))
+            {
+                valorStr = valorStr.Substring(1);
+            }
+            var valor = decimal.Parse(valorStr, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
+
+            var descricao = ExtractTag(transacaoRaw, "MEMO");
+
+            var transacao = new ExtratoBancarioPessoaJuridica
+            {
+                NomeBanco = banco,
+                DataTransacao = dataTransacao,
+                TipoTransacao = tipoTransacao,
+                ValorTransacao = valor,
+                Descricao = descricao
+            };
+
+            transacoes.Add(transacao);
+        }
+
+        foreach (var transacao in transacoes)
+        {
+            _repository.AddAsync(transacao);
+        }
+        return transacoes;
+    }
+    
+    private static string ExtractTag(string conteudo, string tag)
+    {
+        var match = Regex.Match(conteudo, $@"<{tag}>(.*?)<");
+        return match.Success ? match.Groups[1].Value.Trim() : string.Empty;
     }
 
 }
