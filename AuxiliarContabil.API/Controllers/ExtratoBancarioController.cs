@@ -50,4 +50,37 @@ public class ExtratoBancarioController(IExtratoBancarioService extratoBancarioSe
 
     [HttpGet("agrupados")]
     public async Task<IActionResult> GetAllAgrupados() => Ok( await extratoBancarioService.GetAllByBankAndType());
+
+    [HttpPost("processarextratobancario")]
+    public async Task<IActionResult> ProcessBankStatement(IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+        {
+            return BadRequest("Nenhum arquivo foi enviado ou o arquivo está vazio.");
+        }
+        
+        if (!file.FileName.EndsWith(".ofx", StringComparison.OrdinalIgnoreCase))
+        {
+            return BadRequest("O arquivo deve ser do tipo .OFX.");
+        }
+        
+        try
+        {
+            using var stream = new MemoryStream();
+            await file.CopyToAsync(stream);
+            stream.Position = 0;
+
+            var transacoes = extratoBancarioService.ProcessarArquivoOfx(stream);
+
+            return Ok(new
+            {
+                Mensagem = "Arquivo processado com sucesso!",
+                Transacoes = transacoes
+            });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Erro ao processar o arquivo: {ex.Message}");
+        }
+    }
 }
